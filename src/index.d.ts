@@ -1,12 +1,18 @@
 import { AxiosRequestConfig } from 'axios';
-export declare namespace http {
+
+export = esCommonLangs;
+export as namespace esCommonLangs;
+
+declare namespace esCommonLangs {
+
+  export namespace http {
     interface HttpClientsConfig extends AxiosRequestConfig {
     }
     /**
      * Http client;
      * @description default content-type is 'application/x-www-form-urlencoded'
      */
-    class HttpClients {
+    export class HttpClients {
         private static readonly requestTimeout;
         private static requestInterceptors;
         private static responseInterceptors;
@@ -22,4 +28,13 @@ export declare namespace http {
         static delete(url: string): Promise<any>;
         private static removeEmptyParams;
     }
+    
+  }
+
+  export namespace util {
+    export const finance: {
+      format(value: number, places?: number, symbol?: string, thousand?: string, decimal?: string): string;
+    };
+  }
+
 }

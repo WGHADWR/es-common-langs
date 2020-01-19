@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.finance = {
+const finance = {
     /**
      * Format
      * @param value
@@ -25,3 +25,4 @@ exports.finance = {
             + (places ? decimal + Math.abs(value - parseFloat(i)).toFixed(places).slice(2) : '');
     },
 };
+exports.default = finance;

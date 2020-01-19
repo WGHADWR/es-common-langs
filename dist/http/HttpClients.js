@@ -14,120 +14,123 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = __importDefault(require("axios"));
 const qs_1 = __importDefault(require("qs"));
-/**
- * Http client;
- * @description default content-type is 'application/x-www-form-urlencoded'
- */
-class HttpClients {
-    static registRequestInterceptor(interceptor) {
-        this.requestInterceptors.push(interceptor);
-    }
-    static registResponseInterceptors(interceptor) {
-        this.responseInterceptors.push(interceptor);
-    }
-    static registExceptionInterceptors(interceptor) {
-        this.exceptionInterceptors.push(interceptor);
-    }
-    static dispatchInterceptor(interceptors, params) {
-        if (!interceptors || interceptors.length === 0) {
-            return {};
+var http;
+(function (http) {
+    /**
+     * Http client;
+     * @description default content-type is 'application/x-www-form-urlencoded'
+     */
+    class HttpClients {
+        static registRequestInterceptor(interceptor) {
+            this.requestInterceptors.push(interceptor);
         }
-        let options = {};
-        interceptors.forEach((interceptor) => {
-            options = Object.assign(Object.assign({}, options), interceptor(params));
-        });
-        return options;
-    }
-    static request(requestOptions) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const { url, method = 'GET' } = requestOptions;
-            let { headers = {}, data } = requestOptions;
-            // const contentType: string = headers['content-type'] || '';
-            let params = {};
-            // if (contentType.indexOf('application/x-www-form-urlencoded') !== -1) {
-            //   params = { ...data };
-            //   data = null;
-            // }
-            data = this.removeEmptyParams(data);
-            if (method.toUpperCase() === 'GET') {
-                params = Object.assign({}, data);
-                data = null;
+        static registResponseInterceptors(interceptor) {
+            this.responseInterceptors.push(interceptor);
+        }
+        static registExceptionInterceptors(interceptor) {
+            this.exceptionInterceptors.push(interceptor);
+        }
+        static dispatchInterceptor(interceptors, params) {
+            if (!interceptors || interceptors.length === 0) {
+                return {};
             }
-            else {
-                data = qs_1.default.stringify(data);
-            }
-            const options = this.dispatchInterceptor(this.requestInterceptors);
-            const { headers: $headers = {} } = options;
-            headers = Object.assign(Object.assign({}, headers), $headers);
-            try {
-                const response = yield axios_1.default.request({
+            let options = {};
+            interceptors.forEach((interceptor) => {
+                options = Object.assign(Object.assign({}, options), interceptor(params));
+            });
+            return options;
+        }
+        static request(requestOptions) {
+            return __awaiter(this, void 0, void 0, function* () {
+                const { url, method = 'GET' } = requestOptions;
+                let { headers = {}, data } = requestOptions;
+                // const contentType: string = headers['content-type'] || '';
+                let params = {};
+                // if (contentType.indexOf('application/x-www-form-urlencoded') !== -1) {
+                //   params = { ...data };
+                //   data = null;
+                // }
+                data = this.removeEmptyParams(data);
+                if (method.toUpperCase() === 'GET') {
+                    params = Object.assign({}, data);
+                    data = null;
+                }
+                else {
+                    data = qs_1.default.stringify(data);
+                }
+                const options = this.dispatchInterceptor(this.requestInterceptors);
+                const { headers: $headers = {} } = options;
+                headers = Object.assign(Object.assign({}, headers), $headers);
+                try {
+                    const response = yield axios_1.default.request({
+                        url,
+                        method,
+                        headers: Object.assign({ 'content-type': 'application/x-www-form-urlencoded' }, headers),
+                        params,
+                        data,
+                        timeout: this.requestTimeout,
+                    });
+                    return response.data;
+                }
+                catch (e) {
+                    // console.log(e);
+                    this.dispatchInterceptor(this.exceptionInterceptors, { e });
+                }
+                return {};
+            });
+        }
+        static get(url, data) {
+            return __awaiter(this, void 0, void 0, function* () {
+                return HttpClients.request({
                     url,
-                    method,
-                    headers: Object.assign({ 'content-type': 'application/x-www-form-urlencoded' }, headers),
-                    params,
                     data,
-                    timeout: this.requestTimeout,
                 });
-                return response.data;
-            }
-            catch (e) {
-                // console.log(e);
-                this.dispatchInterceptor(this.exceptionInterceptors, { e });
-            }
-            return {};
-        });
-    }
-    static get(url, data) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return HttpClients.request({
-                url,
-                data,
             });
-        });
-    }
-    static post(url, data, options) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return HttpClients.request(Object.assign({ url, method: 'POST', data }, options));
-        });
-    }
-    static put(url, data, options) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return HttpClients.request(Object.assign({ url, method: 'PUT', data }, options));
-        });
-    }
-    static delete(url) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return HttpClients.request({
-                url,
-                method: 'DELETE',
-            });
-        });
-    }
-    static removeEmptyParams(params) {
-        if (!params || typeof (params) !== 'object') {
-            return params;
         }
-        const isNotBlank = (value) => {
-            if (value === null) {
-                return false;
+        static post(url, data, options) {
+            return __awaiter(this, void 0, void 0, function* () {
+                return HttpClients.request(Object.assign({ url, method: 'POST', data }, options));
+            });
+        }
+        static put(url, data, options) {
+            return __awaiter(this, void 0, void 0, function* () {
+                return HttpClients.request(Object.assign({ url, method: 'PUT', data }, options));
+            });
+        }
+        static delete(url) {
+            return __awaiter(this, void 0, void 0, function* () {
+                return HttpClients.request({
+                    url,
+                    method: 'DELETE',
+                });
+            });
+        }
+        static removeEmptyParams(params) {
+            if (!params || typeof (params) !== 'object') {
+                return params;
             }
-            if (typeof value === 'string' && value.trim().length === 0) {
-                return false;
-            }
-            return true;
-        };
-        const $params = {};
-        const keys = Object.keys(params);
-        keys.forEach((p) => {
-            if (isNotBlank(params[p])) {
-                $params[p] = params[p];
-            }
-        });
-        return $params;
+            const isNotBlank = (value) => {
+                if (value === null) {
+                    return false;
+                }
+                if (typeof value === 'string' && value.trim().length === 0) {
+                    return false;
+                }
+                return true;
+            };
+            const $params = {};
+            const keys = Object.keys(params);
+            keys.forEach((p) => {
+                if (isNotBlank(params[p])) {
+                    $params[p] = params[p];
+                }
+            });
+            return $params;
+        }
     }
-}
-exports.HttpClients = HttpClients;
-HttpClients.requestTimeout = 30000;
-HttpClients.requestInterceptors = [];
-HttpClients.responseInterceptors = [];
-HttpClients.exceptionInterceptors = [];
+    HttpClients.requestTimeout = 30000;
+    HttpClients.requestInterceptors = [];
+    HttpClients.responseInterceptors = [];
+    HttpClients.exceptionInterceptors = [];
+    http.HttpClients = HttpClients;
+})(http = exports.http || (exports.http = {}));
