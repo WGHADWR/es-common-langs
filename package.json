@@ -1,0 +1,20 @@
+{
+  "name": "es-common-langs",
+  "version": "1.0.0",
+  "description": "javascript commons",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/qs": "^6.9.0",
+    "typescript": "^3.7.5"
+  },
+  "dependencies": {
+    "axios": "^0.19.1",
+    "qs": "^6.9.1"
+  }
+}
