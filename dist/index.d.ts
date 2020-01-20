@@ -1,7 +1,3 @@
-import { HttpClients as httpClients } from './http/HttpClients';
-export declare const HttpClients: typeof httpClients;
-export declare const util: {
-    Finance: {
-        format(value: number, places?: number, symbol?: string, thousand?: string, decimal?: string): string;
-    };
-};
+import { HttpClients } from './http/HttpClients';
+import { finance as Finance } from './util/finance';
+export { HttpClients, Finance, };

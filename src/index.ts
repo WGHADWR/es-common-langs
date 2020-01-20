@@ -1,8 +1,7 @@
-import { HttpClients as httpClients } from './http/HttpClients';
+import { HttpClients } from './http/HttpClients';
 import { finance as Finance } from './util/finance';
 
-export const HttpClients = httpClients;
-
-export const util = {
+export {
+  HttpClients,
   Finance,
 }
