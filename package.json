@@ -2,13 +2,14 @@
   "name": "es-common-langs",
   "version": "1.0.0",
   "description": "javascript commons",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc -d"
   },
   "author": "",
   "license": "ISC",
+  "type": "module",
   "devDependencies": {
     "@types/qs": "^6.9.0",
     "typescript": "^3.7.5"
