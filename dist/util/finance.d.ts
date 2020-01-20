@@ -1,4 +1,4 @@
-declare const finance: {
+export declare const finance: {
     /**
      * Format
      * @param value
@@ -9,4 +9,3 @@ declare const finance: {
      */
     format(value: number, places?: number, symbol?: string, thousand?: string, decimal?: string): string;
 };
-export default finance;

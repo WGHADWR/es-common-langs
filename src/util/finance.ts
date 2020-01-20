@@ -1,5 +1,5 @@
 
-const finance = {
+export const finance = {
 
   /**
    * Format
@@ -27,5 +27,3 @@ const finance = {
   },
 
 };
-
-export default finance;
