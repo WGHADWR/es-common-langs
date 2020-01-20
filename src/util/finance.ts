@@ -1,5 +1,5 @@
 
-export const finance = {
+export const Finance = {
 
   /**
    * Format

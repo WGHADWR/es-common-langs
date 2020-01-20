@@ -1,4 +1,4 @@
-export declare const finance: {
+export declare const Finance: {
     /**
      * Format
      * @param value
