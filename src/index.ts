@@ -3,5 +3,8 @@ import { finance as Finance } from './util/finance';
 
 export {
   HttpClients,
-  Finance,
+}
+
+export const util = {
+  Finance
 }
